@@ -39,25 +39,28 @@
  * Contributor(s):
  *
  * Portions Copyrighted 2011 Sun Microsystems, Inc.
-  /
-
-  //~ Template for list.php
-  // variables:
-  //  $title - page title
-  //  $status - status of TODOs to be displayed
-  //  $bookings - TODOs to be displayed
  */
+//~ Template for list.php
+// variables:
+//  $title - page title
+//  $status - status of TODOs to be displayed
+//  $todos - TODOs to be displayed
 ?>
 
-<h1>Heading</h1>
+<h1>Bookings</h1>
 
 <?php if (empty($bookings)): ?>
-    <p>No Booking items found.</p>
+    <p>No bookings found.</p>
 <?php else: ?>
     <ul class="list">
-        <?php foreach ($bookings as $bookings): ?>
-            <li>
-                <h3><a>A booking</a></h3>
+        <?php foreach ($bookings as $booking): ?>
+            <li>                
+                <h3><a href="<?php echo Utils::createLink('detail', 
+                        array('id' => $booking->getId())) ?>"><?php 
+                        echo Utils::escape($booking->getflightName()); ?></a></h3>                
+                <p><span class="label">Created On:</span> <?php 
+                echo Utils::escape(Utils::formatDateTime($booking->getDateCreated())); 
+                ?></p>               
             </li>
         <?php endforeach; ?>
     </ul>
