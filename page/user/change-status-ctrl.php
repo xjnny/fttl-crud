@@ -40,29 +40,15 @@
  *
  * Portions Copyrighted 2011 Sun Microsystems, Inc.
  */
-//~ Template for list.php
-// variables:
-//  $title - page title
-//  $status - status of TODOs to be displayed
-//  $todos - TODOs to be displayed
-?>
 
-<h1>Bookings</h1>
+$todo = Utils::getTodoByGetId();
+$todo->setStatus(Utils::getUrlParam('status'));
+if (array_key_exists('comment', $_POST)) {
+    $todo->setComment($_POST['comment']);
+}
 
-<?php if (empty($bookings)): ?>
-    <p>No bookings found.</p>
-<?php else: ?>
-    <ul class="list">
-        <?php foreach ($bookings as $booking): ?>
-            <li>                
-                <h3><a href="<?php echo Utils::createLink('detail', 
-                        array('id' => $booking->getId())) ?>"><?php 
-                        echo Utils::escape($booking->getflightName()); ?></a></h3>                
-                <p><span class="label">Created On:</span> <?php 
-                echo Utils::escape(Utils::formatDateTime($booking->getDateCreated())); 
-                ?></p>     
-                <p><a href="index.php?module=booking&page=delete&id=<?php echo $booking->getId()?>">Delete</a></p>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+$dao = new TodoDao();
+$dao->save($todo);
+Flash::addFlash('TODO status changed successfully.');
+
+Utils::redirect('detail', array('id' => $todo->getId()));

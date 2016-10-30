@@ -1,14 +1,19 @@
-
 <?php
 
 class BookingMapper {
 
+    private function __construct() {
+        ;
+    }
     public static function map(Booking $booking, array $properties) {
         if (array_key_exists('id', $properties)) {
             $booking->setId($properties['id']);
         }
-        if (array_key_exists('flightName', $properties)) {
+        if (array_key_exists('flight_name', $properties)) {
             $booking->setFlightName($properties['flight_name']);
+        }
+        if (array_key_exists('status', $properties)) {
+            $booking->setStatus($properties['status']);
         }
         $flightDate = self::createDateTime($properties['flight_date']);
         if ($flightDate) {
@@ -18,8 +23,8 @@ class BookingMapper {
         if ($dateCreated) {
             $booking->setDateCreated($dateCreated);
         }
-        if (array_key_exists('userId', $properties)) {
-            $booking->setUserId($properties['user_Id']);
+        if (array_key_exists('user_id', $properties)) {
+            $booking->setUserId($properties['user_id']);
         }
     }
 

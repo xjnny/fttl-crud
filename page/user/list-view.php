@@ -47,21 +47,22 @@
 //  $todos - TODOs to be displayed
 ?>
 
-<h1>Bookings</h1>
+<h1>Users</h1>
 
-<?php if (empty($bookings)): ?>
-    <p>No bookings found.</p>
+<?php if (empty($users)): ?>
+    <p>No users found.</p>
 <?php else: ?>
     <ul class="list">
-        <?php foreach ($bookings as $booking): ?>
+        <?php foreach ($users as $user): ?>
             <li>                
                 <h3><a href="<?php echo Utils::createLink('detail', 
-                        array('id' => $booking->getId())) ?>"><?php 
-                        echo Utils::escape($booking->getflightName()); ?></a></h3>                
-                <p><span class="label">Created On:</span> <?php 
-                echo Utils::escape(Utils::formatDateTime($booking->getDateCreated())); 
-                ?></p>     
-                <p><a href="index.php?module=booking&page=delete&id=<?php echo $booking->getId()?>">Delete</a></p>
+                        array('id' => $user->getId())) ?>"><?php 
+                        echo Utils::escape($user->getFirstName()); ?></a></h3>                
+                <p><span class="label">Created On:</span> 
+                    <?php 
+                //echo Utils::escape(Utils::formatDateTime($user->getDateCreated())); 
+                ?>
+                </p>               
             </li>
         <?php endforeach; ?>
     </ul>

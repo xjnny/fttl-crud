@@ -40,29 +40,16 @@
  *
  * Portions Copyrighted 2011 Sun Microsystems, Inc.
  */
-//~ Template for list.php
-// variables:
-//  $title - page title
-//  $status - status of TODOs to be displayed
-//  $todos - TODOs to be displayed
-?>
+$headTemplate = new HeadTemplate('User List | Fly To The Limit', 'List of Users');
 
-<h1>Bookings</h1>
+//$status = Utils::getUrlParam('status');
+//TodoValidator::validateStatus($status);
 
-<?php if (empty($bookings)): ?>
-    <p>No bookings found.</p>
-<?php else: ?>
-    <ul class="list">
-        <?php foreach ($bookings as $booking): ?>
-            <li>                
-                <h3><a href="<?php echo Utils::createLink('detail', 
-                        array('id' => $booking->getId())) ?>"><?php 
-                        echo Utils::escape($booking->getflightName()); ?></a></h3>                
-                <p><span class="label">Created On:</span> <?php 
-                echo Utils::escape(Utils::formatDateTime($booking->getDateCreated())); 
-                ?></p>     
-                <p><a href="index.php?module=booking&page=delete&id=<?php echo $booking->getId()?>">Delete</a></p>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+$dao = new UserDao();
+//$search = new TodoSearchCriteria();
+//$search->setStatus($status);
+
+// data for template
+//$title = Utils::capitalize($status) . ' TODOs';
+$sql = 'SELECT * FROM users';
+$users= $dao->find($sql);

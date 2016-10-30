@@ -74,11 +74,11 @@ final class Index {
         $extra = array('message' => $ex->getMessage());
         if ($ex instanceof NotFoundException) {
             header('HTTP/1.0 404 Not Found');
-            $this->runPage('404', $extra);
+            $this->runErrorPage('404', $extra);
         } else {
             // TODO log exception
             header('HTTP/1.1 500 Internal Server Error');
-            $this->runPage('500', $extra);
+            $this->runErrorPage('404', $extra);           
         }
     }
     /**
@@ -92,6 +92,7 @@ final class Index {
             'NotFoundException' => '../exception/NotFoundException.php',
             'TodoDao' => '../dao/TodoDao.php',
             'BookingDao' => '../dao/BookingDao.php',
+            'UserDao' => '../dao/UserDao.php',
             'TodoMapper' => '../mapping/TodoMapper.php',
             'UserMapper' => '../mapping/UserMapper.php',
             'BookingMapper' => '../mapping/BookingMapper.php',
@@ -130,6 +131,14 @@ final class Index {
         }
         return $page;
     }
+    
+    private function runErrorPage($page, array $extra = array()){
+        $run = true;
+        require self::PAGE_DIR . $page . '-ctrl.php';
+        $template = self::PAGE_DIR  . $page . '-view.php';
+        $flashes = null;
+        require self::LAYOUT_DIR . 'index.phtml';
+    }
     private function runPage($page, array $extra = array()) {
         $run = false;
         if ($this->hasScript($page)) {
@@ -152,10 +161,11 @@ final class Index {
         }
     }
     private function getScript($page) {
+        //if($page === '404' && $page === '')
         return self::PAGE_DIR . $this->module . '/' . $page . '-ctrl.php';
     }
     private function getTemplate($page) {
-        return self::PAGE_DIR . $this->module . '/' . $page . '-view.php';
+        return self::PAGE_DIR  . $this->module . '/' . $page . '-view.php';
     }
     private function hasScript($page) {
         return file_exists($this->getScript($page));
