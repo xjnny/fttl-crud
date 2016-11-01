@@ -1,19 +1,20 @@
 <?php
-
+/**
+ * Description of UserDao
+ *
+ * @author richard_lovell
+ */
 class UserDao {
-   
-      /** @var PDO */
+    
+    /** @var PDO */
     private $db = null;
-
-
     public function __destruct() {
         // close db connection
         $this->db = null;
     }
-
     /**
-     * Find all {@link Booking}s by search criteria.
-     * @return array array of {@link Booking}s
+     * Find all {@link User}s by search criteria.
+     * @return array array of {@link User}s
      */
     public function find($sql) {
         $result = array();
@@ -24,54 +25,48 @@ class UserDao {
         }
         return $result;
     }
-
-//    /**
-//     * Find {@link Todo} by identifier.
-//     * @return Todo Todo or <i>null</i> if not found
-//     */
-//    public function findById($id) {
-//        $row = $this->query('SELECT * FROM todo WHERE deleted = 0 and id = ' . (int) $id)->fetch();
-//        if (!$row) {
-//            return null;
-//        }
-//        $todo = new Todo();
-//        TodoMapper::map($todo, $row);
-//        return $todo;
-//    }
-//
-//    /**
-//     * Save {@link Todo}.
-//     * @param ToDo $todo {@link Todo} to be saved
-//     * @return Todo saved {@link Todo} instance
-//     */
+    /**
+     * Find {@link Todo} by identifier.
+     * @return Todo Todo or <i>null</i> if not found
+     */
+    public function findById($id) {
+        $row = $this->query('SELECT * FROM users WHERE status != "deleted" AND id = ' . (int) $id)->fetch();
+        if (!$row) {
+            return null;
+        }
+        $user = new User;
+        UserMapper::map($user, $row);
+        return $user;
+    }
+    /**
+     * Save {@link Todo}.
+     * @param ToDo $todo {@link Todo} to be saved
+     * @return Todo saved {@link Todo} instance
+     */
 //    public function save(ToDo $todo) {
 //        if ($todo->getId() === null) {
 //            return $this->insert($todo);
 //        }
 //        return $this->update($todo);
 //    }
-//
-//    /**
-//     * Delete {@link Todo} by identifier.
-//     * @param int $id {@link Todo} identifier
-//     * @return bool <i>true</i> on success, <i>false</i> otherwise
-//     */
-//    public function delete($id) {
-//        $sql = '
-//            UPDATE todo SET
-//                last_modified_on = :last_modified_on,
-//                deleted = :deleted
-//            WHERE
-//                id = :id';
-//        $statement = $this->getDb()->prepare($sql);
-//        $this->executeStatement($statement, array(
-//            ':last_modified_on' => self::formatDateTime(new DateTime()),
-//            ':deleted' => true,
-//            ':id' => $id,
-//        ));
-//        return $statement->rowCount() == 1;
-//    }
-
+    /**
+     * Delete {@link Todo} by identifier.
+     * @param int $id {@link Todo} identifier
+     * @return bool <i>true</i> on success, <i>false</i> otherwise
+     */
+    public function delete($id) {
+        $sql = '
+            UPDATE users SET
+                status = :status
+            WHERE
+                id = :id';
+        $statement = $this->getDb()->prepare($sql);
+        $this->executeStatement($statement, array(
+            ':status' => 'deleted',
+            ':id' => $id,
+        ));
+        return $statement->rowCount() == 1;
+    }
     /**
      * @return PDO
      */
@@ -87,7 +82,6 @@ class UserDao {
         }
         return $this->db;
     }
-
 //    private function getFindSql(TodoSearchCriteria $search = null) {
 //        $sql = 'SELECT * FROM todo WHERE deleted = 0 ';
 //        $orderBy = ' priority, due_on';
@@ -110,11 +104,10 @@ class UserDao {
 //        $sql .= ' ORDER BY ' . $orderBy;
 //        return $sql;
 //    }
-//
-//    /**
-//     * @return Todo
-//     * @throws Exception
-//     */
+    /**
+     * @return Todo
+     * @throws Exception
+     */
 //    private function insert(Todo $todo) {
 //        $now = new DateTime();
 //        $todo->setId(null);
@@ -126,11 +119,10 @@ class UserDao {
 //                VALUES (:id, :priority, :created_on, :last_modified_on, :due_on, :title, :description, :comment, :status, :deleted)';
 //        return $this->execute($sql, $todo);
 //    }
-//
-//    /**
-//     * @return Todo
-//     * @throws Exception
-//     */
+    /**
+     * @return Todo
+     * @throws Exception
+     */
 //    private function update(Todo $todo) {
 //        $todo->setLastModifiedOn(new DateTime());
 //        $sql = '
@@ -147,11 +139,10 @@ class UserDao {
 //                id = :id';
 //        return $this->execute($sql, $todo);
 //    }
-//
-//    /**
-//     * @return Todo
-//     * @throws Exception
-//     */
+    /**
+     * @return Todo
+     * @throws Exception
+     */
 //    private function execute($sql, Todo $todo) {
 //        $statement = $this->getDb()->prepare($sql);
 //        $this->executeStatement($statement, $this->getParams($todo));
@@ -163,7 +154,6 @@ class UserDao {
 //        }
 //        return $todo;
 //    }
-//
 //    private function getParams(Todo $todo) {
 //        $params = array(
 //            ':id' => $todo->getId(),
@@ -183,13 +173,11 @@ class UserDao {
 //        }
 //        return $params;
 //    }
-//
-//    private function executeStatement(PDOStatement $statement, array $params) {
-//        if (!$statement->execute($params)) {
-//            self::throwDbError($this->getDb()->errorInfo());
-//        }
-//    }
-
+    private function executeStatement(PDOStatement $statement, array $params) {
+        if (!$statement->execute($params)) {
+            self::throwDbError($this->getDb()->errorInfo());
+        }
+    }
     /**
      * @return PDOStatement
      */
@@ -200,14 +188,11 @@ class UserDao {
         }
         return $statement;
     }
-
     private static function throwDbError(array $errorInfo) {
         // TODO log error, send email, etc.
         throw new Exception('DB error [' . $errorInfo[0] . ', ' . $errorInfo[1] . ']: ' . $errorInfo[2]);
     }
-//
-//    private static function formatDateTime(DateTime $date) {
-//        return $date->format(DateTime::ISO8601);
-//    }
+    private static function formatDateTime(DateTime $date) {
+        return $date->format(DateTime::ISO8601);
+    }
 }
-    

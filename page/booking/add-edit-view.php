@@ -1,3 +1,4 @@
+
 <?php
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
@@ -40,13 +41,11 @@
  *
  * Portions Copyrighted 2011 Sun Microsystems, Inc.
  */
-
 //~ Template for add-edit.php
 // variables:
 //  $errors - validation errors
 //  $todo - submitted TODO
 //  $edit - true for EDIT, false for ADD
-
 function error_field($title, array $errors) {
     foreach ($errors as $error) {
         /* @var $error Error */
@@ -56,15 +55,14 @@ function error_field($title, array $errors) {
     }
     return '';
 }
-
-/* @var $todo Todo */
+/* @var $booking Booking */
 ?>
 
 <h1>
     <?php if ($edit): ?>
-        <?php echo Utils::escape($todo->getTitle()); ?>
+        <?php echo Utils::escape($booking->getTitle()); ?>
     <?php else: ?>
-        Add new TODO
+        Add new Booking
     <?php endif; ?>
 </h1>
 
@@ -79,58 +77,20 @@ function error_field($title, array $errors) {
 
 <form action="#" method="post">
     <fieldset>
-        <div class="field">
-            <label>Title:</label>
-            <input type="text" name="todo[title]" value="<?php echo Utils::escape($todo->getTitle()); ?>"
-                   class="text<?php echo error_field('title', $errors); ?>"/>
-        </div>
-        <div class="field">
-            <label>Due On:</label>
-            <input type="text" name="todo[due_on_date]" value="<?php echo Utils::escape($todo->getDueOn()->format('Y-n-j')); ?>"
-                   class="text datepicker<?php echo error_field('due_on', $errors); ?>" />
-            &nbsp;
-            <select name="todo[due_on_hour]">
-            <?php for ($i = 0; $i < 24; ++$i): ?>
-                <option value="<?php echo $i; ?>"
-                        <?php if ($todo->getDueOn() && $i == $todo->getDueOn()->format('H')): ?>
-                            selected="selected"
-                        <?php endif; ?>
-                        ><?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
-            <?php endfor; ?>
+            <label>Flight Name:</label>
+            <select name="booking[flight_name]">
+                <option value="Helicopter Sightseeing">Helicopter Sightseeing</option>
+                <option value="Glider">Glider</option>
+                <option value="Tramping excursion">Tramping excursion</option>
+                <option value="Heliskiing">Heliskiing</option>
             </select>
-            :
-            <select name="todo[due_on_minute]">
-            <?php for ($i = 0; $i < 60; $i = $i + 15): ?>
-                <option value="<?php echo $i; ?>"
-                        <?php if ($todo->getDueOn() && $i == $todo->getDueOn()->format('i')): ?>
-                            selected="selected"
-                        <?php endif; ?>
-                        ><?php echo str_pad($i, 2, '0', STR_PAD_LEFT); ?></option>
-            <?php endfor; ?>
-            </select>
-        </div>
+<!--            <input type="text" name="booking[flight_name]" value="<?php // echo Utils::escape($booking->getFlightName()); ?>"
+                   class="text<?php // echo error_field('flight_name', $errors); ?>"/>-->
+        
         <div class="field">
-            <label>Priority:</label>
-            <select name="todo[priority]">
-            <?php foreach (Todo::allPriorities() as $priority): ?>
-                <option value="<?php echo $priority; ?>"
-                        <?php if ($priority == $todo->getPriority()): ?>
-                            selected="selected"
-                        <?php endif; ?>
-                        ><?php echo $priority; ?></option>
-            <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="field">
-            <label>Description:</label>
-            <textarea name="todo[description]" cols="1" rows="1"
-                      class="<?php echo error_field('description', $errors); ?>"><?php echo Utils::escape($todo->getDescription()); ?></textarea>
-        </div>
-        <div class="field">
-            <label>Comment:</label>
-            <textarea name="todo[comment]" cols="1" rows="1"
-                      class="<?php echo error_field('comment', $errors); ?>"><?php echo Utils::escape($todo->getComment()); ?></textarea>
-        </div>
+            <label>Date of Flight:</label>
+            <input type="text" name="booking[flight_date]" value="<?php echo Utils::escape($booking->getFlightDate()->format('Y-n-j')); ?>"
+                   class="text datepicker<?php echo error_field('flight_date', $errors); ?>" </div>           
         <div class="wrapper">
             <input type="submit" name="cancel" value="CANCEL" class="submit" />
             <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />

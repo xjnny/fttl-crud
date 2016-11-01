@@ -7,7 +7,8 @@ class User {
     private $lastName;
     private $email;
     private $password;
-    
+    private $status;
+
     function getId() {
         return $this->id;
     }
@@ -27,7 +28,11 @@ class User {
     function getPassword() {
         return $this->password;
     }
-
+    
+    function getStatus() {
+        return $this->status;
+    }
+    
     function setId($id) {
         $this->id = $id;
     }
@@ -47,6 +52,10 @@ class User {
     function setPassword($password) {
         $this->password = $password;
     }
-     
+    
+    function setStatus($status) {
+        $this->status = $status;
+    }
+    
 }
 

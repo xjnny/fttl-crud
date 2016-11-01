@@ -57,13 +57,13 @@
             <li>                
                 <h3><a href="<?php echo Utils::createLink('detail', 
                         array('id' => $user->getId())) ?>"><?php 
-                        echo Utils::escape($user->getFirstName()); ?></a></h3>                
-                <p><span class="label">Created On:</span> 
-                    <?php 
-                //echo Utils::escape(Utils::formatDateTime($user->getDateCreated())); 
-                ?>
+                        echo Utils::escape($user->getFirstName()) . ' ' . Utils::escape($user->getLastName()); ?></a></h3>                
+                <p><span class="label">Email Address:</span> 
+                    <?php echo Utils::escape($user->getEmail());?>
+                    <p><a href="index.php?module=user&page=delete&id=<?php echo $user->getId()?>">Delete</a></p>
                 </p>               
             </li>
         <?php endforeach; ?>
     </ul>
-<?php endif; ?>
+<?php endif; 
+

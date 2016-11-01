@@ -28,5 +28,8 @@ class UserMapper {
         if (array_key_exists('password', $properties)) {
             $user->setPassword($properties['password']);
         }
+        if (array_key_exists('status', $properties)) {
+            $user->setStatus($properties['status']);
+        }
     }
 }

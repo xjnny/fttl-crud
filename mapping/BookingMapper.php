@@ -15,13 +15,17 @@ class BookingMapper {
         if (array_key_exists('status', $properties)) {
             $booking->setStatus($properties['status']);
         }
-        $flightDate = self::createDateTime($properties['flight_date']);
-        if ($flightDate) {
-            $booking->setFlightDate($flightDate);
+         if (array_key_exists('flight_date', $properties)) {
+            $flightDate = self::createDateTime($properties['flight_date']);
+            if ($flightDate) {
+                $booking->setFlightDate($flightDate);
+            }
         }
-        $dateCreated = self::createDateTime($properties['date_created']);
-        if ($dateCreated) {
-            $booking->setDateCreated($dateCreated);
+        if (array_key_exists('date_created', $properties)) {
+            $dateCreated = self::createDateTime($properties['date_created']);
+            if ($dateCreated) {
+                $booking->setDateCreated($dateCreated);
+            }
         }
         if (array_key_exists('user_id', $properties)) {
             $booking->setUserId($properties['user_id']);
