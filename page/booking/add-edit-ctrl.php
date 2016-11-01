@@ -42,7 +42,7 @@
  */
 $headTemplate = new HeadTemplate('Add/Edit | Fly To The Limit', 'Edit or add a Booking');
         
-
+$flightNames = ['Glider', 'Helicopter Sightseeing'];
 $errors = array();
 $todo = null;
 $edit = array_key_exists('id', $_GET);
