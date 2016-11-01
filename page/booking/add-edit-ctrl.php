@@ -48,7 +48,7 @@ $todo = null;
 $edit = array_key_exists('id', $_GET);
 if ($edit) {
     $dao = new BookingDao();
-    $booking = Utils::getObjByGetId();
+    $booking = Utils::getObjByGetId($dao);
 } else {
     // set defaults
     $booking = new Booking();

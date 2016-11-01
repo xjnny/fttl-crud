@@ -60,10 +60,11 @@ function error_field($title, array $errors) {
 
 <h1>
     <?php if ($edit): ?>
-        <?php echo Utils::escape($booking->getTitle()); ?>
+        Edit&nbsp;
     <?php else: ?>
-        Add new Booking
+        Add&nbsp;
     <?php endif; ?>
+        new Booking
 </h1>
 
 <?php if (!empty($errors)): ?>
