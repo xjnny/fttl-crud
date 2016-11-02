@@ -24,7 +24,7 @@ function error_field($title, array $errors) {
     <?php else: ?>
         Add&nbsp;
     <?php endif; ?>
-        new Booking
+       new Booking
 </h1>
 
 <?php if (!empty($errors)): ?>

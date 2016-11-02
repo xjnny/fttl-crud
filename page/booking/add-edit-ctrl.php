@@ -16,7 +16,6 @@ if ($edit) {
     $flightDate = new DateTime("+1 day");
     $flightDate->setTime(0, 0, 0);
     $booking->setFlightDate($flightDate);
-    
     $booking->setStatus('pending');
     $userId = 1;
     $booking->setUserId($userId);
@@ -25,7 +24,7 @@ if ($edit) {
 //if (array_key_exists('cancel', $_POST)) {
 //    // redirect
 //    Utils::redirect('detail', array('id' => $todo->getId()));
-//} 
+//} else
 
 if (array_key_exists('save', $_POST)) {
     // for security reasons, do not map the whole $_POST['todo']

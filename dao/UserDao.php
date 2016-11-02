@@ -1,13 +1,10 @@
 <?php
-/**
- * Description of UserDao
- *
- * @author richard_lovell
- */
+
 class UserDao {
     
     /** @var PDO */
     private $db = null;
+    
     public function __destruct() {
         // close db connection
         $this->db = null;
@@ -26,32 +23,32 @@ class UserDao {
         return $result;
     }
     /**
-     * Find {@link Todo} by identifier.
-     * @return Todo Todo or <i>null</i> if not found
+     * Find {@link User} by identifier.
+     * @return User User or <i>null</i> if not found
      */
     public function findById($id) {
         $row = $this->query('SELECT * FROM users WHERE status != "deleted" AND id = ' . (int) $id)->fetch();
         if (!$row) {
             return null;
         }
-        $user = new User;
+        $user = new User();
         UserMapper::map($user, $row);
         return $user;
     }
     /**
-     * Save {@link Todo}.
-     * @param ToDo $todo {@link Todo} to be saved
-     * @return Todo saved {@link Todo} instance
+     * Save {@link User}.
+     * @param User $user {@link User} to be saved
+     * @return User saved {@link User} instance
      */
-//    public function save(ToDo $todo) {
-//        if ($todo->getId() === null) {
-//            return $this->insert($todo);
-//        }
-//        return $this->update($todo);
-//    }
+    public function save(User $user) {
+        if ($user->getId() === null) {
+            return $this->insert($user);
+        }
+        return $this->update($user);
+    }
     /**
-     * Delete {@link Todo} by identifier.
-     * @param int $id {@link Todo} identifier
+     * Delete {@link User} by identifier.
+     * @param int $id {@link User} identifier
      * @return bool <i>true</i> on success, <i>false</i> otherwise
      */
     public function delete($id) {
@@ -82,18 +79,18 @@ class UserDao {
         }
         return $this->db;
     }
-//    private function getFindSql(TodoSearchCriteria $search = null) {
-//        $sql = 'SELECT * FROM todo WHERE deleted = 0 ';
+//    private function getFindSql(UserSearchCriteria $search = null) {
+//        $sql = 'SELECT * FROM user WHERE deleted = 0 ';
 //        $orderBy = ' priority, due_on';
 //        if ($search !== null) {
 //            if ($search->getStatus() !== null) {
 //                $sql .= 'AND status = ' . $this->getDb()->quote($search->getStatus());
 //                switch ($search->getStatus()) {
-//                    case Todo::STATUS_PENDING:
+//                    case User::STATUS_PENDING:
 //                        $orderBy = 'due_on, priority';
 //                        break;
-//                    case Todo::STATUS_DONE:
-//                    case Todo::STATUS_VOIDED:
+//                    case User::STATUS_DONE:
+//                    case User::STATUS_VOIDED:
 //                        $orderBy = 'due_on DESC, priority';
 //                        break;
 //                    default:
@@ -105,74 +102,64 @@ class UserDao {
 //        return $sql;
 //    }
     /**
-     * @return Todo
+     * @return User
      * @throws Exception
      */
-//    private function insert(Todo $todo) {
-//        $now = new DateTime();
-//        $todo->setId(null);
-//        $todo->setCreatedOn($now);
-//        $todo->setLastModifiedOn($now);
-//        $todo->setStatus(Todo::STATUS_PENDING);
-//        $sql = '
-//            INSERT INTO todo (id, priority, created_on, last_modified_on, due_on, title, description, comment, status, deleted)
-//                VALUES (:id, :priority, :created_on, :last_modified_on, :due_on, :title, :description, :comment, :status, :deleted)';
-//        return $this->execute($sql, $todo);
-//    }
+    private function insert(User $user) {
+        //$now = new DateTime();
+        $user->setId(null);
+        $user->setStatus('pending');
+        $sql = '
+            INSERT INTO users (id, first_name, last_name, email, password, status)
+                VALUES (:id, :first_name, :last_name, :email, :password, :status)';
+        return $this->execute($sql, $user);
+    }
     /**
-     * @return Todo
+     * @return User
      * @throws Exception
      */
-//    private function update(Todo $todo) {
-//        $todo->setLastModifiedOn(new DateTime());
-//        $sql = '
-//            UPDATE todo SET
-//                priority = :priority,
-//                last_modified_on = :last_modified_on,
-//                due_on = :due_on,
-//                title = :title,
-//                description = :description,
-//                comment = :comment,
-//                status = :status,
-//                deleted = :deleted
-//            WHERE
-//                id = :id';
-//        return $this->execute($sql, $todo);
-//    }
+    private function update(User $user) {
+     //   $user->setLastModifiedOn(new DateTime());
+        $sql = '
+  
+            UPDATE users SET
+                id = :id,
+                first_name = :first_name,
+                last_name = :last_name,
+                email = :email,
+                password = :password,
+                status = :status
+            WHERE
+                id = :id';
+        return $this->execute($sql, $user);
+    }
     /**
-     * @return Todo
+     * @return User
      * @throws Exception
      */
-//    private function execute($sql, Todo $todo) {
-//        $statement = $this->getDb()->prepare($sql);
-//        $this->executeStatement($statement, $this->getParams($todo));
-//        if (!$todo->getId()) {
-//            return $this->findById($this->getDb()->lastInsertId());
-//        }
-//        if (!$statement->rowCount()) {
-//            throw new NotFoundException('TODO with ID "' . $todo->getId() . '" does not exist.');
-//        }
-//        return $todo;
-//    }
-//    private function getParams(Todo $todo) {
-//        $params = array(
-//            ':id' => $todo->getId(),
-//            ':priority' => $todo->getPriority(),
-//            ':created_on' => self::formatDateTime($todo->getCreatedOn()),
-//            ':last_modified_on' => self::formatDateTime($todo->getLastModifiedOn()),
-//            ':due_on' => self::formatDateTime($todo->getDueOn()),
-//            ':title' => $todo->getTitle(),
-//            ':description' => $todo->getDescription(),
-//            ':comment' => $todo->getComment(),
-//            ':status' => $todo->getStatus(),
-//            ':deleted' => $todo->getDeleted(),
-//        );
-//        if ($todo->getId()) {
-//            // unset created date, this one is never updated
-//            unset($params[':created_on']);
-//        }
-//        return $params;
-//    }
+    private function execute($sql, User $user) {
+        $statement = $this->getDb()->prepare($sql);
+        $this->executeStatement($statement, $this->getParams($user));
+        if (!$user->getId()) {
+            return $this->findById($this->getDb()->lastInsertId());
+        }
+        if (!$statement->rowCount()) {
+            throw new NotFoundException('User with ID "' . $user->getId() . '" does not exist.');
+        }
+        return $user;
+    }
+    private function getParams(User $user) {
+        $params = array(
+            ':id' => $user->getId(),
+            ':first_name' => $user->getFirstName(),
+            ':last_name' => $user->getLastName(),
+            ':email' => $user->getEmail(),
+            ':password' => $user->getPassword(),
+            ':status' => $user->getStatus()
+        );
+        
+        return $params;
+    }
     private function executeStatement(PDOStatement $statement, array $params) {
         if (!$statement->execute($params)) {
             self::throwDbError($this->getDb()->errorInfo());
