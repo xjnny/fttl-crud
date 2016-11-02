@@ -57,7 +57,10 @@
             <li>                
                 <h3><a href="<?php echo Utils::createLink('detail', 
                         array('id' => $booking->getId())) ?>"><?php 
-                        echo Utils::escape($booking->getflightName()); ?></a></h3>                
+                        echo Utils::escape($booking->getflightName()); ?></a></h3>  
+                <p><span class="label">Flight Date:</span> <?php 
+                echo Utils::escape(Utils::formatDateTime($booking->getFlightDate())); 
+                ?></p>     
                 <p><span class="label">Created On:</span> <?php 
                 echo Utils::escape(Utils::formatDateTime($booking->getDateCreated())); 
                 ?></p>     

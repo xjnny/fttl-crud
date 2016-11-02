@@ -23,8 +23,8 @@ class BookingDao {
         return $result;
     }
     /**
-     * Find {@link Todo} by identifier.
-     * @return Todo Todo or <i>null</i> if not found
+     * Find {@link Booking} by identifier.
+     * @return Booking Booking or <i>null</i> if not found
      */
     public function findById($id) {
         $row = $this->query('SELECT * FROM bookings WHERE status != "deleted" and id = ' . (int) $id)->fetch();
@@ -36,9 +36,9 @@ class BookingDao {
         return $booking;
     }
     /**
-     * Save {@link Todo}.
-     * @param ToDo $todo {@link Todo} to be saved
-     * @return Todo saved {@link Todo} instance
+     * Save {@link Booking}.
+     * @param Booking $booking {@link Booking} to be saved
+     * @return Booking saved {@link Booking} instance
      */
     public function save(Booking $booking) {
         if ($booking->getId() === null) {
@@ -102,7 +102,7 @@ class BookingDao {
 //        return $sql;
 //    }
     /**
-     * @return Todo
+     * @return Booking
      * @throws Exception
      */
     private function insert(Booking $booking) {
@@ -115,27 +115,23 @@ class BookingDao {
         return $this->execute($sql, $booking);
     }
     /**
-     * @return Todo
+     * @return Booking
      * @throws Exception
      */
-//    private function update(Todo $todo) {
-//        $todo->setLastModifiedOn(new DateTime());
-//        $sql = '
-//            UPDATE todo SET
-//                priority = :priority,
-//                last_modified_on = :last_modified_on,
-//                due_on = :due_on,
-//                title = :title,
-//                description = :description,
-//                comment = :comment,
-//                status = :status,
-//                deleted = :deleted
-//            WHERE
-//                id = :id';
-//        return $this->execute($sql, $todo);
-//    }
+    private function update(Booking $booking) {
+    $booking->setFlightDate(new DateTime());
+        $sql = '
+            UPDATE bookings SET
+                flight_name = :flight_name,
+                flight_date = :flight_date,
+                status = :status,
+                user_id = :user_id
+            WHERE
+                id = :id';
+        return $this->execute($sql, $booking);
+    }
     /**
-     * @return Todo
+     * @return Booking
      * @throws Exception
      */
     private function execute($sql, Booking $booking) {
@@ -144,10 +140,10 @@ class BookingDao {
         if (!$booking->getId()) {
             return $this->findById($this->getDb()->lastInsertId());
         }
-        if (!$statement->rowCount()) {
-            throw new NotFoundException('Booking with ID "' . $todo->getId() . '" does not exist.');
-        }
-        return $todo;
+//        if (!$statement->rowCount()) {
+//            throw new NotFoundException('Booking with ID "' . $booking->getId() . '" does not exist.');
+//        }
+        return $booking;
     }
     private function getParams(Booking $booking) {
         $params = array(
@@ -175,7 +171,7 @@ class BookingDao {
         return $statement;
     }
     private static function throwDbError(array $errorInfo) {
-        // TODO log error, send email, etc.
+        // Booking log error, send email, etc.
         throw new Exception('DB error [' . $errorInfo[0] . ', ' . $errorInfo[1] . ']: ' . $errorInfo[2]);
     }
     private static function formatDateTime(DateTime $date) {
