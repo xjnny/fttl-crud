@@ -3,7 +3,6 @@
 class BookingMapper {
 
     private function __construct() {
-        ;
     }
     public static function map(Booking $booking, array $properties) {
         if (array_key_exists('id', $properties)) {
@@ -12,11 +11,12 @@ class BookingMapper {
         if (array_key_exists('flight_name', $properties)) {
             $booking->setFlightName($properties['flight_name']);
         }
-        if (array_key_exists('status', $properties)) {
-            $booking->setStatus($properties['status']);
-        }
-         if (array_key_exists('flight_date', $properties)) {
+        if (array_key_exists('flight_date', $properties)) {
             $flightDate = self::createDateTime($properties['flight_date']);
+//            var_dump($properties);
+//            echo '<br><br>';
+//            var_dump($flightDate);
+//            die();
             if ($flightDate) {
                 $booking->setFlightDate($flightDate);
             }
@@ -26,6 +26,9 @@ class BookingMapper {
             if ($dateCreated) {
                 $booking->setDateCreated($dateCreated);
             }
+        }
+        if (array_key_exists('status', $properties)) {
+            $booking->setStatus($properties['status']);
         }
         if (array_key_exists('user_id', $properties)) {
             $booking->setUserId($properties['user_id']);

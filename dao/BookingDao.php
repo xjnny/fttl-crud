@@ -106,7 +106,7 @@ class BookingDao {
      * @throws Exception
      */
     private function insert(Booking $booking) {
-        $now = new DateTime();
+     //   $now = new DateTime();
         $booking->setId(null);
         $booking->setStatus('pending');
         $sql = '
@@ -119,7 +119,7 @@ class BookingDao {
      * @throws Exception
      */
     private function update(Booking $booking) {
-    $booking->setFlightDate(new DateTime());
+    //$booking->setFlightDate(new DateTime());
         $sql = '
             UPDATE bookings SET
                 flight_name = :flight_name,
@@ -153,6 +153,11 @@ class BookingDao {
             ':status' => $booking->getStatus(),
             ':user_id' => $booking->getUserId(),
         );
+//        var_dump($booking);
+//        echo '<br>';
+//        var_dump($params);
+//        die();
+//        
         return $params;
     }
     private function executeStatement(PDOStatement $statement, array $params) {

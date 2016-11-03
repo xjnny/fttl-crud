@@ -2,7 +2,7 @@
 
 $headTemplate = new HeadTemplate('Add/Edit | Fly To The Limit', 'Edit or add a Booking');
         
-$flightNames = ['Glider', 'Helicopter Sightseeing', 'Tramping excursion', 'Heliskiing'];
+$flightNames = ['','Glider', 'Helicopter Sightseeing', 'Tramping excursion', 'Heliskiing'];
 $errors = array();
 $todo = null;
 $edit = array_key_exists('id', $_GET);
@@ -30,13 +30,16 @@ if (array_key_exists('save', $_POST)) {
     // for security reasons, do not map the whole $_POST['todo']
     $data = array(
         'flight_name' => $_POST['booking']['flight_name'],
-        'flight_date' => $_POST['booking']['flight_date']
+        'flight_date' => $_POST['booking']['flight_date'] . ' 00:00:00'
     );
+    
+//    var_dump($data);
+//    die();
         
     // map
     BookingMapper::map($booking, $data);
     // validate
-    //$errors = BookingValidator::validate($booking);
+    $errors = BookingValidator::validate($booking);
     // validate
     if (empty($errors)) {
         // save

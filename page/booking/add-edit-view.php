@@ -1,4 +1,3 @@
-
 <?php
 
 //~ Template for add-edit.php
@@ -60,7 +59,7 @@ function error_field($title, array $errors) {
         
         <div class="field">
             <label>Date of Flight:</label>
-            <input type="text" name="booking[flight_date]" value="<?php echo Utils::escape($booking->getFlightDate()->format('Y-n-j')); ?>"
+            <input id="flight_date" type="text" name="booking[flight_date]" value="<?php echo Utils::escape($booking->getFlightDate()->format('Y-n-j')); ?>"
                    class="text datepicker<?php echo error_field('flight_date', $errors); ?>" </div>           
         <div class="wrapper">
             <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />
