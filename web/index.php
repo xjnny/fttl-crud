@@ -102,6 +102,7 @@ final class Index {
             'TodoSearchCriteria' => '../dao/TodoSearchCriteria.php',
             'TodoValidator' => '../validation/TodoValidator.php',
             'BookingValidator' => '../validation/BookingValidator.php',
+            'UserValidator' => '../validation/UserValidator.php',
             'Utils' => '../util/Utils.php',
             'HeadTemplate' => '../layout/HeadTemplate.php'
         );
